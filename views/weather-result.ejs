@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Weather in <%= weather.name %> - <%= shopData.shopName %></title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <% 
+      // Simple suggestion logic based on weather
+      const temp = Math.round(weather.main.temp);
+      const feels = Math.round(weather.main.feels_like);
+      const conditionMain = (weather.weather && weather.weather[0] && weather.weather[0].main)
+        ? weather.weather[0].main.toLowerCase()
+        : "";
+      const wind = weather.wind && weather.wind.speed ? weather.wind.speed : 0;
+
+      let suggestionTitle = "General advice";
+      let suggestionText = "Use your own judgment and adjust the intensity of your workout as needed.";
+
+      if (conditionMain.includes("thunder") || conditionMain.includes("storm")) {
+        suggestionTitle = "Stormy conditions";
+        suggestionText = "It looks stormy – it’s safer to avoid outdoor workouts. Consider an indoor session like strength training or yoga instead.";
+      } else if (conditionMain.includes("snow")) {
+        suggestionTitle = "Snowy conditions";
+        suggestionText = "Snow can make surfaces slippery. If you go outside, slow down and choose safe routes, or swap to an indoor workout.";
+      } else if (conditionMain.includes("rain") || conditionMain.includes("drizzle")) {
+        suggestionTitle = "Rainy conditions";
+        if (temp >= 8 && temp <= 18) {
+          suggestionText = "Light rain and cool temps can be okay if you have waterproof clothing. Keep it moderate and be careful of slippery surfaces.";
+        } else if (temp < 8) {
+          suggestionText = "Cold and wet is a tough combo. It’s better to keep this one indoors, or keep your outdoor session very short.";
+        } else {
+          suggestionText = "Warm but rainy – you can still run outside if you’re comfortable getting wet. Just watch your footing.";
+        }
+      } else {
+        // Clear / clouds etc.
+        if (temp >= 28) {
+          suggestionTitle = "Very warm conditions";
+          suggestionText = "It’s quite hot. Favour shorter, lower-intensity sessions, go early/late in the day, and hydrate well if training outside.";
+        } else if (temp >= 20 && temp < 28) {
+          suggestionTitle = "Great for outdoor training";
+          suggestionText = "Nice warm weather – good for most outdoor workouts. Pace yourself and drink water if it’s sunny.";
+        } else if (temp >= 10 && temp < 20) {
+          suggestionTitle = "Cool and comfortable";
+          suggestionText = "Cool conditions are great for running or cycling. A light layer should be enough for most outdoor workouts.";
+        } else if (temp >= 0 && temp < 10) {
+          suggestionTitle = "Chilly conditions";
+          suggestionText = "It’s a bit cold. Layer up if you go outside, or consider staying indoors for high-intensity training.";
+        } else {
+          suggestionTitle = "Very cold conditions";
+          suggestionText = "It’s very cold. Limit outdoor time and make sure you’re warm enough, or move your workout indoors.";
+        }
+      }
+
+      // Adjust for strong wind
+      if (wind >= 10 && !conditionMain.includes("storm")) {
+        suggestionText += " It’s also quite windy, so choose sheltered routes and be extra careful if cycling.";
+      }
+    %>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <h2><%= shopData.shopName %></h2>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/workouts/list">All workouts</a>
+          <a href="/workouts/addworkout">Add workout</a>
+          <a href="/workouts/search">Search workouts</a>
+          <a href="/workouts/shortworkouts">Short workouts</a>
+          <a href="/weather" class="active">Weather</a>
+          <a href="/about">About</a>
+          <% if (currentUser) { %>
+            <a href="/users/list">Users</a>
+            <a href="/users/audit">Login audit</a>
+          <% } %>
+        </nav>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar-title">
+            Weather in <%= weather.name %>, <%= weather.sys.country %>
+          </div>
+          <div class="topbar-auth">
+            <% if (currentUser) { %>
+              <span>Hi, <%= currentUser %></span>
+              <a href="/users/logout">Logout</a>
+            <% } else { %>
+              <a href="/users/login">Login</a>
+              <a href="/users/register">Register</a>
+            <% } %>
+          </div>
+        </header>
+
+        <main class="main-content">
+          <h1>Weather result</h1>
+
+          <div style="border:1px solid #374151; padding:0.75rem; border-radius:4px; max-width:520px;">
+            <h2><%= weather.name %>, <%= weather.sys.country %></h2>
+
+            <p style="font-size:1.5rem; margin:0.5rem 0;">
+              <%= temp %>°C
+              <span style="font-size:0.9rem; margin-left:0.5rem;">
+                (Feels like <%= feels %>°C)
+              </span>
+            </p>
+
+            <% if (weather.weather && weather.weather.length > 0) { %>
+              <p><%= weather.weather[0].description %></p>
+            <% } %>
+
+            <p>Humidity: <%= weather.main.humidity %>%</p>
+            <p>Wind speed: <%= weather.wind.speed %> m/s</p>
+            <p>Pressure: <%= weather.main.pressure %> hPa</p>
+          </div>
+
+
+          <div style="margin-top:1.1rem; border:1px solid #374151; padding:0.75rem; border-radius:4px; max-width:520px;">
+            <h2>Workout suggestion</h2>
+            <p style="margin-top:0.5rem;"><strong><%= suggestionTitle %></strong></p>
+            <p style="margin-top:0.25rem;"><%= suggestionText %></p>
+          </div>
+
+          <p style="margin-top:1rem;">
+            <a href="/weather">Check another city</a> |
+            <a href="/">Back to home</a>
+          </p>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

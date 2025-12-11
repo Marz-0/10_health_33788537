@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Register - <%= shopData.shopName %></title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2><%= shopData.shopName %></h2>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/workouts/list">All workouts</a>
+          <a href="/workouts/addworkout">Add workout</a>
+          <a href="/workouts/search">Search workouts</a>
+          <a href="/workouts/shortworkouts">Short workouts</a>
+          <a href="/weather">Weather</a>
+          <a href="/about">About</a>
+        </nav>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar-title">Register</div>
+          <div class="topbar-auth">
+            <% if (currentUser) { %>
+              <span>Hi, <%= currentUser %></span>
+              <a href="/users/logout">Logout</a>
+            <% } else { %>
+              <a href="/users/login">Login</a>
+              <a href="/users/register">Register</a>
+            <% } %>
+          </div>
+        </header>
+
+        <main class="main-content">
+          <h1>Register for <%= shopData.shopName %></h1>
+
+          <% if (typeof errors !== 'undefined' && errors && errors.length) { %>
+            <div class="error">
+              <ul>
+                <% errors.forEach(function(err) { %>
+                  <li><%= err.msg %></li>
+                <% }); %>
+              </ul>
+            </div>
+          <% } %>
+
+          <form method="POST" action="registered">
+            <label for="username">Username</label>
+            <input id="username" type="text" name="username" required />
+
+            <label for="first">First name</label>
+            <input id="first" type="text" name="first" required />
+
+            <label for="last">Last name</label>
+            <input id="last" type="text" name="last" required />
+
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" required />
+
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" required />
+
+            <p style="font-size:0.85rem; color:#9ca3af; margin-top:0.3rem;">
+              Password should be at least 8 characters and include upper case, lower case,
+              a number, and a symbol.
+            </p>
+
+            <input type="submit" value="Register" />
+          </form>
+
+          <p style="margin-top:0.9rem;">
+            Already have an account? <a href="/users/login">Login</a>.
+          </p>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

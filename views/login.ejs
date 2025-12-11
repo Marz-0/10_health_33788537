@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Login - <%= shopData.shopName %></title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2><%= shopData.shopName %></h2>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/workouts/list">All workouts</a>
+          <a href="/workouts/addworkout">Add workout</a>
+          <a href="/workouts/search">Search workouts</a>
+          <a href="/workouts/shortworkouts">Short workouts</a>
+          <a href="/weather">Weather</a>
+          <a href="/about">About</a>
+        </nav>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar-title">Login</div>
+          <div class="topbar-auth">
+            <% if (currentUser) { %>
+              <span>Hi, <%= currentUser %></span>
+              <a href="/users/logout">Logout</a>
+            <% } else { %>
+              <a href="/users/login">Login</a>
+              <a href="/users/register">Register</a>
+            <% } %>
+          </div>
+        </header>
+
+        <main class="main-content">
+          <h1>Login</h1>
+
+          <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+            <div class="error"><%= errorMessage %></div>
+          <% } %>
+
+          <form method="POST" action="/users/login">
+            <label for="identifier">Username</label>
+            <input id="identifier" name="identifier" type="text" required />
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" required />
+
+            <button type="submit">Login</button>
+          </form>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

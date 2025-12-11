@@ -1,0 +1,174 @@
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #020617;   
+  color: #ffffff;        
+}
+
+/* Sidebar on the left */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Left sidebar */
+.sidebar {
+  width: 220px;
+  background: #030712;
+  border-right: 1px solid #111827;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.sidebar h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: #bbf7d0; 
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 0.35rem 0.5rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #ffffff;        
+  border-radius: 4px;
+}
+
+.sidebar nav a:hover {
+  background: #065f46;   
+}
+
+.sidebar nav a.active {
+  background: #16a34a;   
+  color: #f9fafb;
+}
+
+/* Main column */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top bar with title and login/logout on right */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid #111827;
+  background: #020617;
+}
+
+.topbar-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #bbf7d0;   
+}
+
+.topbar-auth a {
+  margin-left: 0.75rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  color: #ffffff;        
+}
+
+.topbar-auth a:hover {
+  color: #22c55e;        
+}
+
+/* Page content */
+.main-content {
+  padding: 1.25rem;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 1.3rem;
+  margin-top: 0;
+  color: #ffffff;       
+}
+
+p {
+  font-size: 0.95rem;
+  color: #ffffff;       
+}
+
+/* Form styling */
+form {
+  max-width: 420px;
+}
+
+label {
+  display: block;
+  margin-top: 0.6rem;
+  margin-bottom: 0.1rem;
+  font-size: 0.9rem;
+  color: #ffffff;        
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  border: 1px solid #374151;
+  background: #020617;
+  color: #ffffff;        
+  box-sizing: border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #16a34a;
+}
+
+button,
+input[type="submit"] {
+  margin-top: 0.8rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 4px;
+  border: none;
+  background: #16a34a;
+  color: #f9fafb;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background: #15803d;
+}
+
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #22c55e;
+  text-decoration: underline;
+}
+
+
+/* Error box for form validations */
+.error {
+  margin-top: 0.8rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background: #7f1d1d;
+  color: #fee2e2;
+  font-size: 0.9rem;
+}

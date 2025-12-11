@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>About - <%= shopData.shopName %></title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <div class="layout">
+
+      <aside class="sidebar">
+        <h2><%= shopData.shopName %></h2>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/workouts/list">All workouts</a>
+          <a href="/workouts/addworkout">Add workout</a>
+          <a href="/workouts/search">Search workouts</a>
+          <a href="/workouts/shortworkouts">Short workouts</a>
+          <a href="/weather">Weather</a>
+          <a href="/about" class="active">About</a>
+          <% if (currentUser) { %>
+            <a href="/users/list">Users</a>
+            <a href="/users/audit">Login audit</a>
+          <% } %>
+        </nav>
+      </aside>
+      
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar-title">About</div>
+          <div class="topbar-auth">
+            <% if (currentUser) { %>
+              <span>Hi, <%= currentUser %></span>
+              <a href="/users/logout">Logout</a>
+            <% } else { %>
+              <a href="/users/login">Login</a>
+              <a href="/users/register">Register</a>
+            <% } %>
+          </div>
+        </header>
+
+        <main class="main-content">
+          <h1>About <%= shopData.shopName %></h1>
+          <p>
+            <%= shopData.shopName %> is a simple health &amp; fitness web app that helps you
+            track your workouts over time.
+          </p>
+          <p>
+            You can log different types of activities (like running, strength training or yoga),
+            record how long you exercised for, how intense it was, and when you did it.
+          </p>
+          <p>
+            Registered users can securely sign in, add new workouts, review their history,
+            and view short sessions that are under 30 minutes.
+          </p>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

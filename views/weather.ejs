@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Weather for your workout - <%= shopData.shopName %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2><%= shopData.shopName %></h2>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/workouts/list">All workouts</a>
+          <a href="/workouts/addworkout">Add workout</a>
+          <a href="/workouts/search">Search workouts</a>
+          <a href="/workouts/shortworkouts">Short workouts</a>
+          <a href="/weather" class="active">Weather</a>
+          <a href="/about">About</a>
+          <% if (currentUser) { %>
+            <a href="/users/list">Users</a>
+            <a href="/users/audit">Login audit</a>
+          <% } %>
+        </nav>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar-title">Weather</div>
+          <div class="topbar-auth">
+            <% if (currentUser) { %>
+              <span>Hi, <%= currentUser %></span>
+              <a href="/users/logout">Logout</a>
+            <% } else { %>
+              <a href="/users/login">Login</a>
+              <a href="/users/register">Register</a>
+            <% } %>
+          </div>
+        </header>
+
+        <main class="main-content">
+          <h1>Current weather</h1>
+          <p>Enter a city to see the current weather before planning your outdoor workout.</p>
+
+          <form action="/weather" method="post">
+            <label for="city">City</label>
+            <input id="city" name="city" type="text" placeholder="e.g. London" required />
+            <button type="submit">Get weather</button>
+          </form>
+
+          <% if (typeof error !== 'undefined' && error) { %>
+            <div class="error">
+              <strong>Error:</strong> <%= error %>
+            </div>
+          <% } %>
+
+          <% if (typeof weather !== 'undefined' && weather) { %>
+            <div style="margin-top:1rem; border:1px solid #374151; padding:0.75rem; border-radius:4px;">
+              <h2>
+                <%= weather.city %><% if (weather.country) { %>, <%= weather.country %><% } %>
+              </h2>
+              <p>
+                <strong><%= weather.temp %>°C</strong>
+                <span style="margin-left:0.5rem;">Feels like <%= weather.feels_like %>°C</span>
+              </p>
+              <% if (weather.description) { %>
+                <p><%= weather.description %></p>
+              <% } %>
+            </div>
+          <% } %>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

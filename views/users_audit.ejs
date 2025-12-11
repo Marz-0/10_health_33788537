@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Login audit - <%= shopData.shopName %></title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2><%= shopData.shopName %></h2>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/workouts/list">All workouts</a>
+          <a href="/workouts/addworkout">Add workout</a>
+          <a href="/workouts/search">Search workouts</a>
+          <a href="/workouts/shortworkouts">Short workouts</a>
+          <a href="/weather">Weather</a>
+          <a href="/about">About</a>
+          <a href="/users/list">Users</a>
+          <a href="/users/audit" class="active">Login audit</a>
+        </nav>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar-title">Login audit</div>
+          <div class="topbar-auth">
+            <% if (currentUser) { %>
+              <span>Hi, <%= currentUser %></span>
+              <a href="/users/logout">Logout</a>
+            <% } else { %>
+              <a href="/users/login">Login</a>
+              <a href="/users/register">Register</a>
+            <% } %>
+          </div>
+        </header>
+
+        <main class="main-content">
+          <h1>Login audit</h1>
+          <p>This table shows recent login attempts for the health app.</p>
+
+          <table class="audit-table" style="margin-top:0.75rem; width:100%; border-collapse:collapse; font-size:0.9rem;">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Identifier</th>
+                <th>Result</th>
+                <th>Reason</th>
+                <th>IP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (Array.isArray(audits) && audits.length) { %>
+                <% audits.forEach(function(row) { %>
+                  <tr>
+                    <td><%= row.created_at %></td>
+                    <td><%= row.identifier %></td>
+                    <td><%= row.success ? 'Success' : 'Failure' %></td>
+                    <td><%= row.reason %></td>
+                    <td><%= row.ip %></td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr><td colspan="5">No audit records found.</td></tr>
+              <% } %>
+            </tbody>
+          </table>
+
+          <p style="margin-top:0.9rem;">
+            <a href="/">Back to home</a>
+          </p>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

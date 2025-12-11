@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Search workouts - <%= shopData.shopName %></title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2><%= shopData.shopName %></h2>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/workouts/list">All workouts</a>
+          <a href="/workouts/addworkout">Add workout</a>
+          <a href="/workouts/search" class="active">Search workouts</a>
+          <a href="/workouts/shortworkouts">Short workouts</a>
+          <a href="/weather">Weather</a>
+          <a href="/about">About</a>
+          <% if (currentUser) { %>
+            <a href="/users/list">Users</a>
+            <a href="/users/audit">Login audit</a>
+          <% } %>
+        </nav>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar-title">Search workouts</div>
+          <div class="topbar-auth">
+            <% if (currentUser) { %>
+              <span>Hi, <%= currentUser %></span>
+              <a href="/users/logout">Logout</a>
+            <% } else { %>
+              <a href="/users/login">Login</a>
+              <a href="/users/register">Register</a>
+            <% } %>
+          </div>
+        </header>
+
+        <main class="main-content">
+          <h1>Search your workouts</h1>
+          <form action="/workouts/search_result" method="GET">
+            <p>What workout or activity are you looking for?</p>
+            <input
+              id="search-box"
+              type="text"
+              name="search_text"
+              aria-describedby="search-error"
+              required
+            />
+            <input type="submit" value="Search" />
+            <div
+              id="search-error"
+              role="alert"
+              style="color:#f87171;margin-top:6px;display:none;font-size:0.9em;"
+            ></div>
+          </form>
+
+          <p style="margin-top:0.9rem;">
+            <a href="/">Back to home</a>
+          </p>
+
+          <script>
+            (function () {
+              var form = document.querySelector('form[action="/workouts/search_result"]');
+              var input = document.getElementById('search-box');
+              var err = document.getElementById('search-error');
+
+              form.onsubmit = function (e) {
+                var v = (input.value || '').trim();
+                if (!v) {
+                  e.preventDefault();
+                  err.textContent = 'Please enter a workout or activity to search for.';
+                  err.style.display = 'block';
+                  input.focus();
+                  return;
+                }
+                input.value = v;
+              };
+
+              input.oninput = function () {
+                err.style.display = 'none';
+              };
+            })();
+          </script>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Search results - <%= shopData && shopData.shopName ? shopData.shopName : "Workout Tracker" %>
+    </title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2><%= shopData && shopData.shopName ? shopData.shopName : "Workout Tracker" %></h2>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/workouts/list">All workouts</a>
+          <a href="/workouts/addworkout">Add workout</a>
+          <a href="/workouts/search" class="active">Search workouts</a>
+          <a href="/workouts/shortworkouts">Short workouts</a>
+          <a href="/weather">Weather</a>
+          <a href="/about">About</a>
+          <% if (currentUser) { %>
+            <a href="/users/list">Users</a>
+            <a href="/users/audit">Login audit</a>
+          <% } %>
+        </nav>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar-title">
+            Results for "<%= (typeof searchTerm !== 'undefined' ? searchTerm : '') %>"
+          </div>
+          <div class="topbar-auth">
+            <% if (currentUser) { %>
+              <span>Hi, <%= currentUser %></span>
+              <a href="/users/logout">Logout</a>
+            <% } else { %>
+              <a href="/users/login">Login</a>
+              <a href="/users/register">Register</a>
+            <% } %>
+          </div>
+        </header>
+
+        <main class="main-content">
+          <h1>Search results</h1>
+          <p>
+            <%= Array.isArray(workouts) ? workouts.length : 0 %> result(s) found.
+          </p>
+
+          <ul class="workout-list">
+            <% if (Array.isArray(workouts) && workouts.length) { %>
+              <% workouts.forEach(function(workout) { %>
+                <% var title = workout.title || 'Untitled workout'; %>
+                <% var type = workout.activity_type || 'Unspecified activity'; %>
+                <% var duration = workout.duration_minutes || 0; %>
+                <% var intensity = workout.intensity || 'unspecified'; %>
+                <% var date = workout.performed_at || ''; %>
+                <li>
+                  <strong><%= title %></strong>
+                  — <%= type %>,
+                  <%= duration %> mins,
+                  intensity: <%= intensity %>
+                  <% if (date) { %> (on <%= date %>) <% } %>
+                </li>
+              <% }) %>
+            <% } else { %>
+              <li>No workouts found.</li>
+            <% } %>
+          </ul>
+
+          <p style="margin-top:0.9rem;">
+            <a href="/workouts/search">Back to search</a> |
+            <a href="/workouts/list">View all workouts</a> |
+            <a href="/">Home</a>
+          </p>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
