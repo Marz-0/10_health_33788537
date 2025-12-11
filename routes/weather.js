@@ -9,7 +9,7 @@ router.get("/", function (req, res, next) {
 router.post('/', function (req, res, next) {
     try {
         let city = req.sanitize(req.body.city || '');
-        return res.redirect(`/weather/result?city=${encodeURIComponent(city)}`);
+        return res.redirect(`./weather/result?city=${encodeURIComponent(city)}`);
     } catch (err) {
         return next(err);
     }
