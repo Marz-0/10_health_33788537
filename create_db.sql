@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS login_audit (
 
 -- Create the application user 
 CREATE USER IF NOT EXISTS 'health_app'@'localhost'
-IDENTIFIED WITH caching_sha2_password BY 'qwertyuiop';
+IDENTIFIED BY 'qwertyuiop';
 GRANT ALL PRIVILEGES ON health.* TO 'health_app'@'localhost';
 
 
