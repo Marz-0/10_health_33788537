@@ -169,5 +169,11 @@ Useful URLs:
 - Users list: `/users/list`
 - Login audit: `/users/audit`
 
+
+
+Currently the app runs on the Goldsmiths virtual servers with the following link:
+
+https://doc.gold.ac.uk/usr/360/ 
+
 ---
 
