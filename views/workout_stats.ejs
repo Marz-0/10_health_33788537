@@ -82,7 +82,7 @@
 
       async function loadStats() {
         try {
-          const res = await fetch('/api/workouts/stats');
+          const res = await fetch('../api/workouts/stats');
           const data = await res.json();
 
           const hasData = (arr) => Array.isArray(arr) && arr.length > 0;
