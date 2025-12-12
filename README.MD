@@ -6,6 +6,19 @@ Powered by **Node.js**, **Express**, **MySQL**, and **EJS**.
 
 ---
 
+## Key Technologies
+
+- **Backend**: Node.js with Express framework
+- **Database**: MySQL with mysql2 driver
+- **Template Engine**: EJS (Embedded JavaScript)
+- **Authentication**: bcrypt for password hashing, express-session for session management
+- **Validation**: express-validator for input validation
+- **Sanitisation**: express-sanitizer for XSS protection
+- **Charting**: Chart.js (loaded via CDN)
+- **External API**: OpenWeatherMap for weather data
+
+---
+
 ## Setup & Installation
 
 ### 1. Install dependencies
@@ -30,9 +43,10 @@ SOURCE create_db.sql;
 
 This creates the **health** database and the tables:
 
-- `workouts`
-- `users`
-- `login_audit`
+- `workouts` - stores workout/exercise records
+- `users` - stores user accounts
+- `login_audit` - tracks login attempts
+- `achievements` - stores fitness milestones and personal records
 
 ### 3. Insert sample data
 
@@ -160,61 +174,78 @@ This feature adds a new page that shows workout statistics using charts. It was 
 
 ## Validation
 
-Validation has been added in text boxes where uses must enter text or information to add to the database. We use the express-validator module to validate fields. This is done using "checks" based on each feild. In my code, I have added validation to:
+Validation has been added to protect data integrity and ensure users enter valid information. We use the **express-validator** module to validate fields with checks based on each field type. 
 
-- Registration fields
-- Search fields
-- Workout form fields
+Validation is implemented in:
+
+- **Registration fields** (username, email, password)
+- **Search fields** (workout search queries)
+- **Workout form fields** (title, duration, intensity, date)
+- **Achievement form fields** (title, metric value, date)
 
 ## Sanitisation
 
-Sanitation has been added in text boxes to prevent users from any Cross-Site Scripting (XSS) attacks. 
+Sanitisation has been added to prevent Cross-Site Scripting (XSS) attacks. We use the **express-sanitizer** module to sanitise user input by wrapping request body fields with `req.sanitize()`.
 
-We use the express-sanitizer module to sanitise our fields. This is done by wrapping any request body with req.sanitize. This prevents any XSS attacks in our website. 
+The following pages have been sanitised:
 
-The following pages have been sanitized:
-
-- The register page:
+- **Register page:**
     - First name
-    - Fast name
+    - Last name
     - Email
 
-- Workout page: 
-    - title 
-    - notes 
+- **Workout page:** 
+    - Title 
+    - Notes 
+
+- **Achievement page:**
+    - Title
+    - Description
+    - Category
+    - Metric unit 
 
 ---
 
 ## API Endpoints
 
-In this Application, we use an API for get data of the live weather in Cities using OpenWeatherMap
+### Weather API
 
-We also create our own API to get data of workouts that have been added to our databases. 
+This application uses the OpenWeatherMap API to get live weather data for cities and provide workout suggestions based on weather conditions.
 
-### List all workouts
+### Internal API
+
+The application also provides its own REST API to get workout data from the database.
+
+#### List all workouts
 ```
 /api/workouts
 ```
 
-### Search workouts
+#### Search workouts
 ```
 /api/workouts?search=run
 ```
 
-### Filter by duration
+#### Filter by duration
 ```
 /api/workouts?max_duration=30
 ```
 
-### Filter by type
+#### Filter by intensity
 ```
-/api/workouts?type=Running
+/api/workouts?intensity=high
 ```
 
-### Sort workouts
+#### Sort workouts
 ```
 /api/workouts?sort=duration
 ```
+
+#### Workout statistics (for charts)
+```
+/api/workouts/stats
+```
+Returns JSON with workout counts grouped by month, activity type, and intensity level.
 
 
 
@@ -233,10 +264,18 @@ node index.js
 
 Useful URLs:
 
+- Home: `/`
+- About: `/about`
 - Register: `/users/register`
 - Login: `/users/login`
 - Add workout: `/workouts/addworkout`
 - All workouts: `/workouts/list`
+- Search workouts: `/workouts/search`
+- Short workouts: `/workouts/shortworkouts`
+- Workout Analytics: `/workouts/stats`
+- Add achievement: `/achievements/add`
+- List achievements: `/achievements/list`
+- Achievement report: `/achievements/report`
 - Weather: `/weather`
 - Users list: `/users/list`
 - Login audit: `/users/audit`
