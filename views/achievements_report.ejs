@@ -16,7 +16,9 @@
           <a href="/workouts/search">Search workouts</a>
           <a href="/workouts/shortworkouts">Short workouts</a>
           <a href="/achievements/list">Achievements</a>
-          <a href="/achievements/add">Add achievement</a>
+          <% if (currentUser) { %>
+            <a href="/achievements/add">Add achievement</a>
+          <% } %>
           <a href="/achievements/report" class="active">Achievement report</a>
           <a href="/weather">Weather</a>
           <a href="/about">About</a>
@@ -117,8 +119,10 @@
           </section>
 
           <p style="margin-top:0.9rem;">
-            <a href="/achievements/list">Back to achievements</a> |
-            <a href="/achievements/add">Add another</a>
+            <a href="/achievements/list">Back to achievements</a>
+            <% if (currentUser) { %>
+              | <a href="/achievements/add">Add another</a>
+            <% } %>
           </p>
         </main>
       </div>

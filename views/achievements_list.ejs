@@ -16,7 +16,9 @@
           <a href="/workouts/search">Search workouts</a>
           <a href="/workouts/shortworkouts">Short workouts</a>
           <a href="/achievements/list" class="active">Achievements</a>
-          <a href="/achievements/add">Add achievement</a>
+          <% if (currentUser) { %>
+            <a href="/achievements/add">Add achievement</a>
+          <% } %>
           <a href="/achievements/report">Achievement report</a>
           <a href="/weather">Weather</a>
           <a href="/about">About</a>
@@ -63,12 +65,19 @@
                 </li>
               <% }) %>
             <% } else { %>
-              <li>No achievements recorded yet. <a href="/achievements/add">Add your first one</a>.</li>
+              <li>
+                No achievements recorded yet.
+                <% if (currentUser) { %>
+                  <a href="/achievements/add">Add your first one</a>.
+                <% } %>
+              </li>
             <% } %>
           </ul>
 
           <p style="margin-top:0.9rem;">
-            <a href="/achievements/add">Add achievement</a> |
+            <% if (currentUser) { %>
+              <a href="/achievements/add">Add achievement</a> |
+            <% } %>
             <a href="/achievements/report">View report</a>
           </p>
         </main>
