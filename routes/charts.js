@@ -4,35 +4,33 @@ const router = express.Router();
 
 // GET /api/workouts/stats
 // Returns grouped counts by month, activity_type, and intensity for Chart.js.
-// SQL uses YEAR()+MONTH() with CONCAT for broader MySQL compatibility across VMs.
 router.get('/workouts/stats', async function (req, res, next) {
     try {
-        // SQL 1: Workouts per month (YYYY-MM key using YEAR/MONTH and LPAD)
+        // SQL 1: Workouts per month (YYYY-MM key via DATE_FORMAT)
         const sqlByMonth = `
-            SELECT 
-              CONCAT(YEAR(performed_at), '-', LPAD(MONTH(performed_at), 2, '0')) AS month,
-              COUNT(*) AS total
-            FROM workouts
-            WHERE performed_at IS NOT NULL
-            GROUP BY YEAR(performed_at), MONTH(performed_at)
-            ORDER BY YEAR(performed_at) ASC, MONTH(performed_at) ASC
+                        SELECT month, COUNT(*) AS total
+                        FROM (
+                            SELECT CONCAT(YEAR(performed_at), '-', LPAD(MONTH(performed_at), 2, '0')) AS month
+                            FROM workouts
+                            WHERE performed_at IS NOT NULL
+                        ) AS m
+                        GROUP BY month
+                        ORDER BY month ASC
         `;
 
         // SQL 2: Workouts per activity type
         const sqlByType = `
-            SELECT COALESCE(NULLIF(TRIM(activity_type), ''), 'Unknown') AS activity_type,
-                   COUNT(*) AS total
+            SELECT activity_type, COUNT(*) AS total
             FROM workouts
-            GROUP BY COALESCE(NULLIF(TRIM(activity_type), ''), 'Unknown')
+            GROUP BY activity_type
             ORDER BY total DESC
         `;
 
         // SQL 3: Workouts per intensity
         const sqlByIntensity = `
-            SELECT COALESCE(NULLIF(TRIM(intensity), ''), 'unspecified') AS intensity,
-                   COUNT(*) AS total
+            SELECT intensity, COUNT(*) AS total
             FROM workouts
-            GROUP BY COALESCE(NULLIF(TRIM(intensity), ''), 'unspecified')
+            GROUP BY intensity
             ORDER BY total DESC
         `;
 
@@ -60,7 +58,6 @@ router.get('/workouts/stats', async function (req, res, next) {
 
         res.json({ byMonth, byType, byIntensity });
     } catch (err) {
-        console.error('Stats API error:', err);
         res.status(500).json({ error: 'Failed to load stats', details: String((err && err.message) || err) });
         return next(err);
     }
