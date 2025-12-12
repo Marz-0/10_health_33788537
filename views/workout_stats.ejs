@@ -68,18 +68,6 @@
       </div>
     </div>
     <script>
-
-      if (typeof Chart === 'undefined') {
-        console.warn('Chart.js did not load (CDN blocked).');
-        document.addEventListener('DOMContentLoaded', function() {
-          var nd = document.getElementById('no-data');
-          if (nd) {
-            nd.style.display = 'block';
-            nd.textContent = 'Charts failed to load (Chart.js CDN blocked).';
-          }
-        });
-      }
-
       async function loadStats() {
         try {
           const res = await fetch('../api/workouts/stats');
