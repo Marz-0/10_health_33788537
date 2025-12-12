@@ -116,10 +116,10 @@ router.get('/shortworkouts', function (req, res, next) {
     });
 });
 
-module.exports = router;
-
-// GET /workouts/stats - Protected page rendering the analytics dashboard. This page will fetch stats from the JSON API and render charts.
+// GET /workouts/stats - Protected page rendering the analytics dashboard.
+// This page will fetch stats from the JSON API and render charts.
 router.get('/stats', redirectLogin, function (req, res, next) {
-    // Render the EJS view; client-side JS will call /api/workouts/stats
     res.render('workout_stats.ejs');
 });
+
+module.exports = router;
