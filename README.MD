@@ -93,6 +93,71 @@ Tracks all login attempts with reason + IP + timestamp.
 
 ---
 
+## Analytics Dashboard (New Feature)
+
+This feature adds a new page that shows workout statistics using charts. It was not covered in the lectures or labs and uses an external library (**Chart.js**) to visualise data.
+
+### What this feature includes
+
+- A new protected page: **`/workouts/stats`**  
+  Only logged-in users can access it. It shows charts based on the user's workout data.
+
+- A new API endpoint: **`/api/workouts/stats`**  
+  This returns summary information from the database, such as:
+  - how many workouts were done each month  
+  - how many workouts were of each activity type  
+  - how many workouts were each intensity level  
+
+- A new view: **`workout_stats.ejs`**  
+  This page loads Chart.js from a CDN and displays three charts:
+  1. **Workouts per month** (bar chart)  
+  2. **Workouts by activity type** (doughnut chart)  
+  3. **Workouts by intensity** (bar chart)
+
+  If there is no workout data, the page shows a friendly message instead of empty charts.
+
+- A new sidebar link: **Analytics**  
+  Added to the navigation menu. It becomes highlighted when the user is on the stats page.
+
+---
+
+## How it works (server side)
+
+- The server runs three SQL `GROUP BY` queries on the `workouts` table to summarise the data:
+  - Count of workouts per month  
+  - Count per activity type  
+  - Count per intensity level  
+
+- These results are returned as JSON from `/api/workouts/stats`.
+
+- The stats page (`/workouts/stats`) uses the same login protection as other private routes.
+
+---
+
+## How it works (client side)
+
+- Chart.js is loaded using a `<script>` tag.
+- When the stats page loads, JavaScript calls:
+
+  ```javascript
+  fetch('/api/workouts/stats')
+  ```
+
+- The data returned by the server is used to fill the charts.
+- If the data is empty (e.g., a new user), the page shows a “No workout data available yet” message.
+
+---
+
+## How to try the dashboard
+
+1. Start the app (`node index.js`).
+2. Log in to your account.
+3. Click **Analytics** in the sidebar.
+4. If you have not added any workouts yet, add some and refresh the page to see the charts update.
+
+
+---
+
 ## Validation
 
 Validation has been added in text boxes where uses must enter text or information to add to the database. We use the express-validator module to validate fields. This is done using "checks" based on each feild. In my code, I have added validation to:

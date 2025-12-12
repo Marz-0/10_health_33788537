@@ -81,5 +81,9 @@ app.use('/achievements', achievementsRoutes);
 const apiRoutes = require('./routes/api');
 app.use('/api', apiRoutes);
 
+// Load the route handlers for charts/stats API (separated for clarity)
+const chartsRoutes = require('./routes/charts');
+app.use('/api', chartsRoutes);
+
 // Start the web app listening
 app.listen(port, () => console.log(`Health app listening on port ${port}!`));

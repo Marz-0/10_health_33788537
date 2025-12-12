@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Analytics - <%= shopData.shopName %></title>
+    <link rel="stylesheet" href="/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2><%= shopData.shopName %></h2>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/workouts/list">All workouts</a>
+          <a href="/workouts/addworkout">Add workout</a>
+          <a href="/workouts/search">Search workouts</a>
+          <a href="/workouts/shortworkouts">Short workouts</a>
+          <a href="/workouts/stats" class="active">Analytics</a>
+          <a href="/achievements/list">Achievements</a>
+          <% if (currentUser) { %>
+            <a href="/achievements/add">Add achievement</a>
+          <% } %>
+          <a href="/achievements/report">Achievement report</a>
+          <a href="/weather">Weather</a>
+          <a href="/about">About</a>
+          <% if (currentUser) { %>
+            <a href="/users/list">Users</a>
+            <a href="/users/audit">Login audit</a>
+          <% } %>
+        </nav>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar-title">Analytics Dashboard</div>
+          <div class="topbar-auth">
+            <% if (currentUser) { %>
+              <span>Hi, <%= currentUser %></span>
+              <a href="/users/logout">Logout</a>
+            <% } else { %>
+              <a href="/users/login">Login</a>
+              <a href="/users/register">Register</a>
+            <% } %>
+          </div>
+        </header>
+        <main class="main-content">
+          <h1>Workout Analytics</h1>
+          <p>Aggregated trends from your recorded workouts.</p>
+
+          <div id="no-data" class="no-data" style="display:none;">No workout data available yet.</div>
+
+          <div class="charts-grid" id="charts">
+            <div class="chart-card">
+              <h3>Workouts per Month</h3>
+              <canvas id="chartByMonth" width="400" height="280"></canvas>
+            </div>
+            <div class="chart-card">
+              <h3>Workouts by Activity Type</h3>
+              <canvas id="chartByType" width="400" height="280"></canvas>
+            </div>
+            <div class="chart-card">
+              <h3>Workouts by Intensity</h3>
+              <canvas id="chartByIntensity" width="400" height="280"></canvas>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <script>
+      async function loadStats() {
+        try {
+          const res = await fetch('/api/workouts/stats');
+          const data = await res.json();
+
+          const hasData = (arr) => Array.isArray(arr) && arr.length > 0;
+          const empty = !hasData(data.byMonth) && !hasData(data.byType) && !hasData(data.byIntensity);
+          document.getElementById('no-data').style.display = empty ? 'block' : 'none';
+
+          // Chart.js setup for each dataset
+          if (hasData(data.byMonth)) {
+            const labels = data.byMonth.map(r => r.month); 
+            const totals = data.byMonth.map(r => r.total);
+            new Chart(document.getElementById('chartByMonth'), {
+              type: 'bar',
+              data: {
+                labels,
+                datasets: [{
+                  label: 'Workouts',
+                  data: totals,
+                  backgroundColor: 'rgba(0, 200, 120, 0.5)',
+                  borderColor: 'rgba(0, 255, 160, 0.8)',
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                plugins: { legend: { display: true } }
+              }
+            });
+          }
+
+          if (hasData(data.byType)) {
+            const labels = data.byType.map(r => r.activity_type || 'Unknown');
+            const totals = data.byType.map(r => r.total);
+            new Chart(document.getElementById('chartByType'), {
+              type: 'doughnut',
+              data: {
+                labels,
+                datasets: [{
+                  label: 'Workouts',
+                  data: totals,
+                  backgroundColor: [
+                    'rgba(0, 200, 120, 0.6)',
+                    'rgba(0, 150, 255, 0.6)',
+                    'rgba(255, 200, 0, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(153, 102, 255, 0.6)'
+                  ],
+                  borderColor: 'rgba(0, 0, 0, 0.2)'
+                }]
+              },
+              options: {
+                plugins: { legend: { position: 'bottom' } }
+              }
+            });
+          }
+
+          if (hasData(data.byIntensity)) {
+            const labels = data.byIntensity.map(r => r.intensity || 'unspecified');
+            const totals = data.byIntensity.map(r => r.total);
+            new Chart(document.getElementById('chartByIntensity'), {
+              type: 'bar',
+              data: {
+                labels,
+                datasets: [{
+                  label: 'Workouts',
+                  data: totals,
+                  backgroundColor: 'rgba(0, 200, 120, 0.5)',
+                  borderColor: 'rgba(0, 255, 160, 0.8)',
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                plugins: { legend: { display: true } }
+              }
+            });
+          }
+        } catch (e) {
+          console.error('Failed to load stats', e);
+          document.getElementById('no-data').style.display = 'block';
+          document.getElementById('no-data').textContent = 'Failed to load stats.';
+        }
+      }
+      loadStats();
+    </script>
+  </body>
+</html>

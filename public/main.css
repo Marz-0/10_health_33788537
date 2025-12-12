@@ -172,3 +172,27 @@ a:hover {
   color: #fee2e2;
   font-size: 0.9rem;
 }
+
+/* Charts layout for analytics dashboard */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.chart-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 255, 0, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.chart-card h3 {
+  margin: 0 0 8px;
+}
+
+.no-data {
+  padding: 16px;
+  border: 1px dashed rgba(0, 255, 0, 0.4);
+  color: #c8facc;
+}
