@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Short workouts - <%= shopData.shopName %></title>
+    <title>Achievements - <%= shopData.shopName %></title>
     <link rel="stylesheet" href="/main.css" />
   </head>
   <body>
@@ -14,8 +14,8 @@
           <a href="/workouts/list">All workouts</a>
           <a href="/workouts/addworkout">Add workout</a>
           <a href="/workouts/search">Search workouts</a>
-          <a href="/workouts/shortworkouts" class="active">Short workouts</a>
-          <a href="/achievements/list">Achievements</a>
+          <a href="/workouts/shortworkouts">Short workouts</a>
+          <a href="/achievements/list" class="active">Achievements</a>
           <a href="/achievements/add">Add achievement</a>
           <a href="/achievements/report">Achievement report</a>
           <a href="/weather">Weather</a>
@@ -29,7 +29,7 @@
 
       <div class="main">
         <header class="topbar">
-          <div class="topbar-title">Short workouts (under 30 minutes)</div>
+          <div class="topbar-title">Achievements</div>
           <div class="topbar-auth">
             <% if (currentUser) { %>
               <span>Hi, <%= currentUser %></span>
@@ -42,33 +42,34 @@
         </header>
 
         <main class="main-content">
-          <h1>Short workouts (under 30 minutes)</h1>
+          <h1>Fitness achievements</h1>
+          <p>Track milestones like personal bests, streaks, and strength goals.</p>
 
           <ul class="workout-list">
-            <% if (Array.isArray(shortWorkouts) && shortWorkouts.length) { %>
-              <% shortWorkouts.forEach(function(workout) { %>
-                <% var title = workout.title || 'Untitled workout'; %>
-                <% var type = workout.activity_type || 'Unspecified activity'; %>
-                <% var duration = workout.duration_minutes || 0; %>
-                <% var intensity = workout.intensity || 'unspecified'; %>
-                <% var date = workout.performed_at || ''; %>
+            <% if (Array.isArray(achievements) && achievements.length) { %>
+              <% achievements.forEach(function (item) { %>
                 <li>
-                  <strong><%= title %></strong>
-                  — <%= type %>,
-                  <%= duration %> mins,
-                  intensity: <%= intensity %>
-                  <% if (date) { %> (on <%= date %>) <% } %>
+                  <strong><%= item.title %></strong>
+                  <% if (item.category) { %> — <%= item.category %><% } %>
+                  <% if (item.metric_value !== null && item.metric_value !== undefined) { %>
+                    , <%= item.metric_value %><% if (item.metric_unit) { %> <%= item.metric_unit %><% } %>
+                  <% } %>
+                  <% if (item.achieved_at) { %> (on <%= item.achieved_at %>) <% } %>
+                  <% if (item.description) { %>
+                    <div style="margin-top:4px; color:#6b7280; font-size:0.95rem;">
+                      <%= item.description %>
+                    </div>
+                  <% } %>
                 </li>
               <% }) %>
             <% } else { %>
-              <li>No short workouts found.</li>
+              <li>No achievements recorded yet. <a href="/achievements/add">Add your first one</a>.</li>
             <% } %>
           </ul>
 
-          <p>
-            <a href="/workouts/addworkout">Add a workout</a> |
-            <a href="/workouts/list">View all workouts</a> |
-            <a href="/">Back to home</a>
+          <p style="margin-top:0.9rem;">
+            <a href="/achievements/add">Add achievement</a> |
+            <a href="/achievements/report">View report</a>
           </p>
         </main>
       </div>

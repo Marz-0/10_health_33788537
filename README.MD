@@ -70,6 +70,13 @@ npm start
 - Short workouts (< 30 mins)
 - Weather-based exercise suggestions
 
+### Achievements Module
+
+- Record fitness achievements (personal bests, streaks, strength milestones)
+- Optional metrics with units (e.g. kg, minutes, reps)
+- Achievement reporting by category and best recorded values
+- Recent achievement feed
+
 ### Weather Integration
 
 Uses OpenWeatherMap to show live weather + workout suggestions.

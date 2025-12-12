@@ -39,6 +39,19 @@ CREATE TABLE IF NOT EXISTS login_audit (
     PRIMARY KEY (id)
 );
 
+-- Achievements table to store fitness milestones and metrics
+CREATE TABLE IF NOT EXISTS achievements (
+    id INT AUTO_INCREMENT,
+    title VARCHAR(120) NOT NULL,
+    description TEXT,
+    category VARCHAR(50),
+    metric_value INT,
+    metric_unit VARCHAR(20),
+    achieved_at DATE,
+    created_by VARCHAR(100),                
+    PRIMARY KEY (id)
+);
+
 -- Create the application user 
 CREATE USER IF NOT EXISTS 'health_app'@'localhost'
 IDENTIFIED BY 'qwertyuiop';

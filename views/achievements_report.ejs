@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Achievement report - <%= shopData.shopName %></title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2><%= shopData.shopName %></h2>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/workouts/list">All workouts</a>
+          <a href="/workouts/addworkout">Add workout</a>
+          <a href="/workouts/search">Search workouts</a>
+          <a href="/workouts/shortworkouts">Short workouts</a>
+          <a href="/achievements/list">Achievements</a>
+          <a href="/achievements/add">Add achievement</a>
+          <a href="/achievements/report" class="active">Achievement report</a>
+          <a href="/weather">Weather</a>
+          <a href="/about">About</a>
+          <% if (currentUser) { %>
+            <a href="/users/list">Users</a>
+            <a href="/users/audit">Login audit</a>
+          <% } %>
+        </nav>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="topbar-title">Achievement report</div>
+          <div class="topbar-auth">
+            <% if (currentUser) { %>
+              <span>Hi, <%= currentUser %></span>
+              <a href="/users/logout">Logout</a>
+            <% } else { %>
+              <a href="/users/login">Login</a>
+              <a href="/users/register">Register</a>
+            <% } %>
+          </div>
+        </header>
+
+        <main class="main-content">
+          <h1>Achievement summary</h1>
+          <p>Total achievements recorded: <strong><%= summary.totalCount %></strong></p>
+
+          <section style="margin-top:1rem;">
+            <h2>By category</h2>
+            <table style="width:100%; border-collapse:collapse; margin-top:0.5rem;">
+              <thead>
+                <tr>
+                  <th style="text-align:left; border-bottom:1px solid #374151; padding:6px;">Category</th>
+                  <th style="text-align:left; border-bottom:1px solid #374151; padding:6px;">Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (summary.byCategory && summary.byCategory.length) { %>
+                  <% summary.byCategory.forEach(function(row) { %>
+                    <tr>
+                      <td style="padding:6px;"><%= row.category || 'Uncategorized' %></td>
+                      <td style="padding:6px;"><%= row.count %></td>
+                    </tr>
+                  <% }); %>
+                <% } else { %>
+                  <tr><td colspan="2" style="padding:6px;">No data yet.</td></tr>
+                <% } %>
+              </tbody>
+            </table>
+          </section>
+
+          <section style="margin-top:1rem;">
+            <h2>Best recorded metrics</h2>
+            <table style="width:100%; border-collapse:collapse; margin-top:0.5rem;">
+              <thead>
+                <tr>
+                  <th style="text-align:left; border-bottom:1px solid #374151; padding:6px;">Category</th>
+                  <th style="text-align:left; border-bottom:1px solid #374151; padding:6px;">Best value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (bestMetrics && bestMetrics.length) { %>
+                  <% bestMetrics.forEach(function(row) { %>
+                    <tr>
+                      <td style="padding:6px;"><%= row.category || 'Uncategorized' %></td>
+                      <td style="padding:6px;">
+                        <%= row.best_value %>
+                        <% if (row.metric_unit) { %> <%= row.metric_unit %> <% } %>
+                      </td>
+                    </tr>
+                  <% }); %>
+                <% } else { %>
+                  <tr><td colspan="2" style="padding:6px;">No metric data yet.</td></tr>
+                <% } %>
+              </tbody>
+            </table>
+          </section>
+
+          <section style="margin-top:1rem;">
+            <h2>Recent achievements</h2>
+            <ul class="workout-list">
+              <% if (Array.isArray(recentAchievements) && recentAchievements.length) { %>
+                <% recentAchievements.forEach(function(item) { %>
+                  <li>
+                    <strong><%= item.title %></strong>
+                    <% if (item.category) { %> — <%= item.category %><% } %>
+                    <% if (item.metric_value !== null && item.metric_value !== undefined) { %>
+                      , <%= item.metric_value %><% if (item.metric_unit) { %> <%= item.metric_unit %><% } %>
+                    <% } %>
+                    <% if (item.achieved_at) { %> (on <%= item.achieved_at %>) <% } %>
+                  </li>
+                <% }); %>
+              <% } else { %>
+                <li>No achievements yet.</li>
+              <% } %>
+            </ul>
+          </section>
+
+          <p style="margin-top:0.9rem;">
+            <a href="/achievements/list">Back to achievements</a> |
+            <a href="/achievements/add">Add another</a>
+          </p>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

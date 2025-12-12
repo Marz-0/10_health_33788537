@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Add workout - <%= shopData.shopName %></title>
+    <title>Add achievement - <%= shopData.shopName %></title>
     <link rel="stylesheet" href="/main.css" />
   </head>
   <body>
@@ -12,11 +12,11 @@
         <nav>
           <a href="/">Home</a>
           <a href="/workouts/list">All workouts</a>
-          <a href="/workouts/addworkout" class="active">Add workout</a>
+          <a href="/workouts/addworkout">Add workout</a>
           <a href="/workouts/search">Search workouts</a>
           <a href="/workouts/shortworkouts">Short workouts</a>
           <a href="/achievements/list">Achievements</a>
-          <a href="/achievements/add">Add achievement</a>
+          <a href="/achievements/add" class="active">Add achievement</a>
           <a href="/achievements/report">Achievement report</a>
           <a href="/weather">Weather</a>
           <a href="/about">About</a>
@@ -29,7 +29,7 @@
 
       <div class="main">
         <header class="topbar">
-          <div class="topbar-title">Add workout</div>
+          <div class="topbar-title">Add achievement</div>
           <div class="topbar-auth">
             <% if (currentUser) { %>
               <span>Hi, <%= currentUser %></span>
@@ -42,7 +42,8 @@
         </header>
 
         <main class="main-content">
-          <h1>Add a workout</h1>
+          <h1>Add a fitness achievement</h1>
+          <p>Record milestones like personal bests, streaks, or big lifts.</p>
 
           <% if (typeof errors !== 'undefined' && Array.isArray(errors) && errors.length) { %>
             <div class="error">
@@ -54,46 +55,47 @@
             </div>
           <% } %>
 
-          <form method="POST" action="/workouts/workoutadded">
-            <label for="title">Workout title</label>
+          <form method="POST" action="/achievements/add">
+            <label for="title">Achievement title</label>
             <input id="title" type="text" name="title" required />
 
-            <label for="activity_type">Activity type</label>
-            <select id="activity_type" name="activity_type">
-              <option value="">-- Select an activity --</option>
-              <option value="Running">Running</option>
-              <option value="Strength Training">Strength Training</option>
-              <option value="Yoga">Yoga</option>
-              <option value="Cycling">Cycling</option>
-              <option value="Other">Other</option>
+            <label for="category">Category</label>
+            <select id="category" name="category">
+              <option value="">-- Select category --</option>
+              <option value="Endurance">Endurance</option>
+              <option value="Strength">Strength</option>
+              <option value="Flexibility">Flexibility</option>
+              <option value="Consistency">Consistency</option>
+              <option value="Weight">Weight</option>
+              <option value="General">General</option>
             </select>
 
-            <label for="duration_minutes">Duration (minutes)</label>
+            <label for="metric_value">Metric value (optional)</label>
             <input
-              id="duration_minutes"
+              id="metric_value"
               type="number"
-              name="duration_minutes"
-              min="1"
+              name="metric_value"
+              min="0"
               step="1"
-              required
+              placeholder="e.g. 10"
             />
 
-            <label for="intensity">Intensity</label>
-            <select id="intensity" name="intensity">
-              <option value="">-- Select intensity --</option>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
+            <label for="metric_unit">Metric unit</label>
+            <input
+              id="metric_unit"
+              type="text"
+              name="metric_unit"
+              placeholder="e.g. reps, km, minutes"
+            />
 
-            <label for="performed_at">Date performed</label>
-            <input id="performed_at" type="date" name="performed_at" />
+            <label for="achieved_at">Date achieved</label>
+            <input id="achieved_at" type="date" name="achieved_at" />
 
-            <label for="notes">Notes</label>
-            <textarea id="notes" name="notes" rows="4"
-              placeholder="Optional details about this workout"></textarea>
+            <label for="description">Notes</label>
+            <textarea id="description" name="description" rows="4"
+              placeholder="What did you achieve and how did it feel?"></textarea>
 
-            <input type="submit" value="Save workout" />
+            <input type="submit" value="Save achievement" />
           </form>
         </main>
       </div>

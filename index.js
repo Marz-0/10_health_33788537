@@ -73,6 +73,10 @@ app.use('/workouts', workoutsRoutes);
 const weatherRoutes = require('./routes/weather');
 app.use('/weather', weatherRoutes);
 
+// Load the route handlers for /achievements
+const achievementsRoutes = require('./routes/achievements');
+app.use('/achievements', achievementsRoutes);
+
 // Load the route handlers for /api (updated below)
 const apiRoutes = require('./routes/api');
 app.use('/api', apiRoutes);
