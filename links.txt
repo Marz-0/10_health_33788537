@@ -1,1 +1,10 @@
-home=http://www.doc.gold.ac.uk/usr/360/
+home=https://www.doc.gold.ac.uk/usr/360/
+about=https://www.doc.gold.ac.uk/usr/360/about
+login=https://www.doc.gold.ac.uk/usr/360/users/login
+register=https://www.doc.gold.ac.uk/usr/360/users/register
+workouts=https://www.doc.gold.ac.uk/usr/360/workouts/list
+add_workout=https://www.doc.gold.ac.uk/usr/360/workouts/addworkout
+analytics=https://www.doc.gold.ac.uk/usr/360/workouts/stats
+achievements=https://www.doc.gold.ac.uk/usr/360/achievements/list
+weather=https://www.doc.gold.ac.uk/usr/360/weather
+
