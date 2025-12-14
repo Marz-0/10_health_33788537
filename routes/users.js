@@ -157,7 +157,7 @@ router.post(
         req.session.username = user.username;
         logLoginAttempt(identifier, true, 'login ok', ip);
 
-        res.redirect('/');
+        res.redirect('../');
       });
     });
   }
