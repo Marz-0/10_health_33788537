@@ -7,7 +7,7 @@ const router = express.Router();
 // Require user to be logged in for write actions
 const redirectLogin = (req, res, next) => {
   if (!req.session.userId) {
-    return res.redirect('/users/login');
+    return res.redirect('../users/login');
   }
   next();
 };
