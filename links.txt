@@ -7,4 +7,6 @@ add_workout=https://www.doc.gold.ac.uk/usr/360/workouts/addworkout
 analytics=https://www.doc.gold.ac.uk/usr/360/workouts/stats
 achievements=https://www.doc.gold.ac.uk/usr/360/achievements/list
 weather=https://www.doc.gold.ac.uk/usr/360/weather
-
+api_workouts=https://www.doc.gold.ac.uk/usr/360/api/workouts
+api_workouts_filtered=https://www.doc.gold.ac.uk/usr/360/api/workouts?intensity=high
+api_workout_stats=https://www.doc.gold.ac.uk/usr/360/api/workouts/stats
