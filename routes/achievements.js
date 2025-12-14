@@ -27,7 +27,7 @@ router.get('/list', (req, res, next) => {
 });
 
 // Show add achievement form
-router.get('./add', redirectLogin, (req, res) => {
+router.get('/add', redirectLogin, (req, res) => {
   res.render('achievements_add.ejs', { errors: [] });
 });
 
